@@ -12,7 +12,7 @@ module.exports = (sequelize) => {
         as: "contractor",
         foreignKey: "contractorId",
       });
-      Contract.hasMany(models.Job, { as: "Jobs", foreignKey: "contractId" });
+      Contract.hasMany(models.Job, { as: "jobs", foreignKey: "contractId" });
     }
   }
   Contract.init(
