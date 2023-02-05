@@ -45,4 +45,46 @@ const getBestProfession = async (startDate, endDate) => {
   return result[0];
 };
 
-export default { getBestProfession };
+/**
+@function getBestClients
+@param {string} startDate The start date of the date range to search in
+@param {string} endDate The end date of the date range to search in
+@param {number} limit The maximum number of results to retrieve, default value is 2
+@throws {AppError} If start date or end date is not provided, If no records are found
+@returns {Array} An array of objects representing the top clients in terms of jobs paid
+*/
+const getBestClients = async (startDate, endDate, limit) => {
+  if (!startDate || !endDate) {
+    throw new AppError(
+      "Please provide a valid date range",
+      HttpStatus.BAD_REQUEST
+    );
+  }
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const defaultLimit = 2;
+  const max = parseInt(limit ?? defaultLimit);
+  const result = await sequelize.query(
+    `
+    SELECT Profile.id, Profile.firstName, Profile.lastName, SUM(Job.amount) as 'totalPaid'
+    FROM profiles as Profile
+    JOIN contracts as Contract ON Profile.id = Contract.clientId
+    JOIN jobs as Job ON Job.contractId = Contract.id
+    WHERE Job.isPaid = true
+    AND Job.createdAt BETWEEN :start AND :end
+    GROUP BY Contract.id
+    ORDER BY totalPaid DESC
+    LIMIT :max
+    `,
+    {
+      replacements: { start, end, max },
+      type: sequelize.QueryTypes.SELECT,
+    }
+  );
+  if (!result.length) {
+    throw new AppError("No records found", HttpStatus.BAD_REQUEST);
+  }
+  return result;
+};
+
+export default { getBestProfession, getBestClients };
