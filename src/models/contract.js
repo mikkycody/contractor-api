@@ -5,11 +5,11 @@ module.exports = (sequelize) => {
   class Contract extends Model {
     static associate(models) {
       Contract.belongsTo(models.Profile, {
-        as: "Client",
+        as: "client",
         foreignKey: "clientId",
       });
       Contract.belongsTo(models.Profile, {
-        as: "Contractor",
+        as: "contractor",
         foreignKey: "contractorId",
       });
       Contract.hasMany(models.Job, { as: "Jobs", foreignKey: "contractId" });
