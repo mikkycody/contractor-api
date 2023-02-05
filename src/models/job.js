@@ -4,6 +4,7 @@ module.exports = (sequelize) => {
     static associate(models) {
       Job.belongsTo(models.Contract, {
         foreignKey: "contractId",
+        as: "contract",
         targetKey: "id",
       });
     }
