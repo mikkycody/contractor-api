@@ -1,6 +1,7 @@
 import express from "express";
 import contractRoutes from "./contract";
 import jobRoutes from "./job";
+import profileRoutes from "./profile";
 
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.get("/api/v1", ({ res }) => {
 
 router.use(contractRoutes);
 router.use(jobRoutes);
+router.use(profileRoutes);
 
 export default router;
