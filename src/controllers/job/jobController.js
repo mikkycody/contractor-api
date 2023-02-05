@@ -1,6 +1,5 @@
 import response from "../../utils/response/ResponseHandler";
 import jobService from "../../services/job/jobService";
-import validateCreateJob from "../../validators/job/createJobValidator";
 import HttpStatus from "http-status";
 
 /**
@@ -9,7 +8,7 @@ import HttpStatus from "http-status";
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  * @param {function} next - Express next middleware function
- * @returns {Promise<Object>} Returns a response object with message and contract details
+ * @returns {Promise<Object>} Returns a response object with message and job details
  *
  * Creates a new job.
  * If there is a validation error with the payload, a BAD_REQUEST response is returned.
@@ -50,4 +49,22 @@ const unpaidJobs = async (req, res, next) => {
   }
 };
 
-export { createJob, unpaidJobs };
+/**
+ * Pays for a job.
+ * @async
+ * @function
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object.
+ * @param {Function} next - The next middleware function in the chain.
+ * @returns {Promise<void>} - Job that was paid for.
+ */
+
+const pay = async (req, res, next) => {
+  try {
+    const job = await jobService.pay(req.params.jobId, req.user.id);
+    return response(res, "Payment Successful", HttpStatus.OK, job);
+  } catch (error) {
+    next(error);
+  }
+};
+export { createJob, unpaidJobs, pay };
