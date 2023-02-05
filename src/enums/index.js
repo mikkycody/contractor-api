@@ -1,2 +1,2 @@
-export * from "./contract/contractStatusEnum";
-export * from "./profile/profileTypeEnum";
+export * from "./contract/ContractStatusEnum";
+export * from "./profile/ProfileTypeEnum";

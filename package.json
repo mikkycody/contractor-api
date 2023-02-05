@@ -9,17 +9,21 @@
     "db:migrate": "npx sequelize-cli db:migrate",
     "make:model": "npx sequelize-cli model:generate --name",
     "make:migration": "npx sequelize-cli migration:create --name",
+    "make:seed": "npx sequelize-cli seed:generate --name",
     "seed": "npx sequelize-cli db:seed:all"
   },
   "author": "Michael George",
   "license": "ISC",
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.19.6",
+    "@joi/date": "^2.1.0",
     "babel-core": "^6.26.3",
     "babel-preset-es2015": "^6.24.1",
     "body-parser": "^1.20.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "http-status": "^1.6.2",
+    "joi": "^17.7.0",
     "mysql2": "^3.1.0",
     "sequelize": "^6.28.0",
     "winston": "^3.8.2"
