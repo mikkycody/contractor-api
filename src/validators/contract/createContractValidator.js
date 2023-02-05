@@ -1,11 +1,13 @@
 import JoiImport from "joi";
 import JoiDate from "@joi/date";
 import { Profile } from "../../models";
-
+import {ProfileTypeEnum} from "../../enums";
 const Joi = JoiImport.extend(JoiDate);
 
 const checkExistence = async (id) => {
-  const user = await Profile.findByPk(id);
+  const user = await Profile.findOne({
+    where: { id, type: ProfileTypeEnum.CONTRACTOR },
+  });
   if (!user) {
     throw new Error("Invalid contractor id");
   }
