@@ -5,13 +5,13 @@ module.exports = (sequelize, DataTypes) => {
   class Profile extends Model {
     static associate(models) {
       Profile.hasMany(models.Contract, {
-        as: "ClientContracts",
-        foreignKey: "client_id",
+        as: "clientContracts",
+        foreignKey: "clientId",
         sourceKey: "id",
       });
       Profile.hasMany(models.Contract, {
-        as: "ContractorContracts",
-        foreignKey: "contractor_id",
+        as: "contractorContracts",
+        foreignKey: "contractorId",
         sourceKey: "id",
       });
     }
