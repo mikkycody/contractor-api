@@ -1,5 +1,5 @@
-import { Model, DataTypes } from "sequelize";
-export default (sequelize) => {
+const { Model, DataTypes } = require("sequelize");
+module.exports = (sequelize) => {
   class Job extends Model {
     static associate(models) {
       Job.belongsTo(models.Contract, {
@@ -21,6 +21,10 @@ export default (sequelize) => {
       amount: {
         type: DataTypes.BIGINT.UNSIGNED,
         allowNull: false,
+      },
+      isPaid: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
       },
     },
     {

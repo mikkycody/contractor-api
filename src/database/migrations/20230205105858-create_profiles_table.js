@@ -20,6 +20,13 @@ module.exports = {
       lastName: {
         type: Sequelize.STRING,
       },
+      email: {
+        type: Sequelize.STRING,
+        unique: true,
+      },
+      balance: {
+        type: Sequelize.INTEGER.UNSIGNED,
+      },
       type: {
         type: Sequelize.ENUM(["contractor", "client"]),
       },
