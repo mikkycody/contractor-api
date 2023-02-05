@@ -21,4 +21,28 @@ const getBestProfession = async (req, res, next) => {
     next(error);
   }
 };
-export { getBestProfession };
+
+/**
+ * Get the best clients in terms of total payment made within a specific date range.
+ *
+ * @function
+ * @async
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {function} next - Express next middleware function
+ * @throws {AppError} If a valid start and end date are not provided in the query, If no records are found within the specified date range.
+ * @returns {Object} - Express response object containing the top clients based on total payment made
+ */
+const getBestClients = async (req, res, next) => {
+  try {
+    const profile = await adminService.getBestClients(
+      req.query?.start,
+      req.query?.end,
+      req.query?.limit
+    );
+    return response(res, "Information Retrieved", HttpStatus.OK, profile);
+  } catch (error) {
+    next(error);
+  }
+};
+export { getBestProfession, getBestClients };

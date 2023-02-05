@@ -4,6 +4,17 @@ import HttpStatus from "http-status";
 import Sequelize from "sequelize";
 
 const { Op } = Sequelize;
+
+/**
+ * Creates a new contract.
+ * @function
+ * @async
+ * @param {Object} payload - Contract data to be stored.
+ * @param {number} payload.clientId - Client's profile ID.
+ * @param {number} payload.contractorId - Contractor's profile ID.
+ * @returns {Promise<Object>} - Promise object represents the created contract instance.
+ * @throws {AppError} - If clientId is equal to contractorId.
+ */
 const create = async (payload) => {
   if (payload.clientId === payload.contractorId) {
     throw new AppError(
@@ -14,6 +25,15 @@ const create = async (payload) => {
   return Contract.create(payload);
 };
 
+/**
+ *Finds a Contract by id and userId
+ *@async
+ *@function
+ *@param {number} id - The id of the contract to find
+ *@param {number} userId - The id of the user to check for permission
+ *@returns {Promise<Contract>} - Returns the found contract
+ *@throws {AppError} - If no contract is found with the specified id and userId, an error with message "No result found." and status code BAD_REQUEST is thrown.
+ **/
 const find = async (id, userId) => {
   const contract = await Contract.findOne({
     where: {
