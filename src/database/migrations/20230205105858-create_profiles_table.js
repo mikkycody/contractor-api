@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.INTEGER.UNSIGNED,
       },
       type: {
-        type: Sequelize.ENUM(["contractor", "client"]),
+        type: Sequelize.ENUM(["contractor", "client", "admin"]),
       },
       createdAt: {
         allowNull: false,
