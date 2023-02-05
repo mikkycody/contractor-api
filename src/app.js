@@ -10,7 +10,7 @@ const app = express();
 // Parse incoming requests data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(routes);
+app.use(routes);
 const port = process.env.PORT || 4040;
 
 app.listen(port, () => {

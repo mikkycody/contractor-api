@@ -1,6 +1,7 @@
-import { Model, DataTypes } from "sequelize";
-import { ContractStatusEnum } from "../enums";
-export default (sequelize) => {
+const { Model, DataTypes } = require("sequelize");
+const { ContractStatusEnum } = require("../enums");
+
+module.exports = (sequelize) => {
   class Contract extends Model {
     static associate(models) {
       Contract.belongsTo(models.Profile, {

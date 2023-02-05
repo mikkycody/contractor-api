@@ -1,7 +1,7 @@
-import { Model, DataTypes } from "sequelize";
-import { ProfileTypeEnum } from "../enums";
+const { Model } = require("sequelize");
+const { ProfileTypeEnum } = require("../enums");
 
-export default (sequelize) => {
+module.exports = (sequelize, DataTypes) => {
   class Profile extends Model {
     static associate(models) {
       Profile.hasMany(models.Contract, {
@@ -18,9 +18,18 @@ export default (sequelize) => {
   }
   Profile.init(
     {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      type: { type: DataTypes.ENUM, values: Object.values(ProfileTypeEnum) },
+      firstName: { type: DataTypes.STRING, allowNull: false },
+      lastName: { type: DataTypes.STRING, allowNull: false },
+      email: { type: DataTypes.STRING, allowNull: false, unique: true },
+      balance: {
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: false,
+      },
+      type: {
+        type: DataTypes.ENUM,
+        values: Object.values(ProfileTypeEnum),
+        allowNull: false,
+      },
     },
     {
       sequelize,
