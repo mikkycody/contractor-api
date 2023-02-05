@@ -1,5 +1,6 @@
 import express from "express";
 import contractRoutes from "./contract";
+import jobRoutes from "./job";
 
 const router = express.Router();
 
@@ -11,5 +12,6 @@ router.get("/api/v1", ({ res }) => {
 });
 
 router.use(contractRoutes);
+router.use(jobRoutes);
 
 export default router;
