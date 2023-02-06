@@ -12,28 +12,38 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
      */
-    const profiles = [
+    const jobs = [
       {
-        firstName: "Michael",
-        lastName: "George",
-        email: "mgeorge@test.com",
-        balance: 10000,
-        type: "contractor",
+        contractId: 1,
+        amount: 10000,
+        isPaid: false,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        firstName: "Appleseed",
-        lastName: "John",
-        email: "johnappleseed@test.com",
-        type: "client",
-        balance: 50000,
+        contractId: 2,
+        amount: 10000,
+        isPaid: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        contractId: 1,
+        amount: 5000,
+        isPaid: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        contractId: 2,
+        amount: 5000,
+        isPaid: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
     ];
 
-    await queryInterface.bulkInsert("profiles", profiles, {});
+    await queryInterface.bulkInsert("jobs", jobs, {});
   },
 
   async down(queryInterface, Sequelize) {
@@ -43,5 +53,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+
+    await queryInterface.bulkDelete("jobs", null, {});
   },
 };
