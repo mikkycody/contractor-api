@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get("/api/v1", ({ res }) => {
   res.status(200).json({
-    status: "Success",
+    status: true,
     message: "Welcome to Contract Api v1.0.0",
   });
 });
