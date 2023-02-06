@@ -1,4 +1,4 @@
-import { Job, Contract, Profile } from "../../models";
+import { Job, Contract, Profile, sequelize } from "../../models";
 import { ContractStatusEnum } from "../../enums";
 import Sequelize from "sequelize";
 import AppError from "../../exceptions";
@@ -67,6 +67,7 @@ const pay = async (jobId, clientId) => {
       {
         model: Contract,
         as: "contract",
+        where: { clientId },
       },
     ],
   });
@@ -76,17 +77,31 @@ const pay = async (jobId, clientId) => {
   if (job.isPaid) {
     throw new AppError("Payment already made", HttpStatus.BAD_REQUEST);
   }
-  const client = await Profile.findByPk(clientId);
-  const clientBalance = client.balance;
-  const jobAmount = job.amount;
-  if (jobAmount >= clientBalance) {
-    throw new AppError("Insufficient funds", HttpStatus.BAD_REQUEST);
-  }
-  await job.update({ isPaid: true });
-  await client.update({ balance: clientBalance - jobAmount });
-  const contractor = await Profile.findByPk(job.contract.contractorId);
-  contractor.update({ balance: contractor.balance + jobAmount });
-  return job;
+
+  const result = await sequelize.transaction(async (transaction) => {
+    const client = await Profile.findByPk(clientId, {
+      transaction,
+    });
+    const clientBalance = client.balance;
+    const jobAmount = job.amount;
+    if (jobAmount >= clientBalance) {
+      throw new AppError("Insufficient funds", HttpStatus.BAD_REQUEST);
+    }
+    const updatedJob = await job.update({ isPaid: true }, { transaction });
+    await client.update(
+      { balance: clientBalance - jobAmount },
+      { transaction }
+    );
+    const contractor = await Profile.findByPk("job.contract.contractorId", {
+      transaction,
+    });
+    await contractor.update(
+      { balance: contractor.balance + jobAmount },
+      { transaction }
+    );
+    return updatedJob;
+  });
+  return result;
 };
 
 export default { create, unpaidJobs, pay };
